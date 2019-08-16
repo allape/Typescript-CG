@@ -1,0 +1,9 @@
+{
+  "name": "as-angular-code-generator",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@types/node": "^12.7.2",
+    "mysql": "^2.17.1"
+  }
+}
