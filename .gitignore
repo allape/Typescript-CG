@@ -1,5 +1,4 @@
 node_modules
 *.cg-config.ts
 test/
-
-/idea
+.idea/
