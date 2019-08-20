@@ -46,6 +46,14 @@ class CommonUtils {
     return pieces[0] + pieces.splice(1).map(i => i[0].toUpperCase() + i.substring(1)).join('');
   }
 
+  /**
+   * 驼峰转下划线
+   * @param camel 驼峰字符串
+   */
+  public static camelToUnderline(camel: string): string {
+    return camel ? camel[0].toLowerCase() + camel.substring(1).replace(/(?=[A-Z])/g, '_') : camel;
+  }
+
 
   /**
    * 类型转换器, 将数据库类型转换成ts类型

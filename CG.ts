@@ -71,10 +71,14 @@ for (const configFile of configs) {
     const CamelName = CommonUtils.dashNameToCamel(config.name);
     // abcDef
     const camelName = CamelName[0].toLowerCase() + CamelName.substring(1);
+    // ABC_DEF
+    const UNDER_LINE = config.name.replace('-', '_').toUpperCase();
+    // abc_def
+    const under_line = UNDER_LINE.toLowerCase();
     // 生成文件 + 写入文件
     const filename = config.path + config.name + '.component.' + key;
     try {
-      FSUtils.writeRows(filename, template[key](config, camelName, CamelName, fieldMaxLength));
+      FSUtils.writeRows(filename, template[key](config, camelName, CamelName, UNDER_LINE, under_line, fieldMaxLength));
       console.log('已生成:', filename);
     } catch (e) {
       console.warn('写入文件失败:', e);

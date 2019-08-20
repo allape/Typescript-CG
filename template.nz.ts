@@ -4,7 +4,7 @@ const { CommonUtils } = require('./utils');
 const template: Template = {
 
   // TS文件
-  ts: (config, camelName, CamelName, fieldMaxLength) => {
+  ts: (config, camelName, CamelName, UNDER_LINE, under_line, fieldMaxLength) => {
     const rows = [];
 
     rows.push(`import {Component, Injector, OnInit, TemplateRef, ViewChild} from '@angular/core';`);
@@ -23,6 +23,16 @@ const template: Template = {
     rows.push(`  styleUrls: ['./${config.name}.component.less']`);
     rows.push(`})`);
     rows.push(`export class ${CamelName}Component extends BaseComponent implements OnInit {`);
+    rows.push(``);
+    for (const field of config.fields) {
+      if (field.selector) {
+        rows.push(`  public readonly ${UNDER_LINE}_${CommonUtils.camelToUnderline(field.name).toUpperCase()}: LabelValue[] = [`);
+        for (const option of field.selector.options) {
+          rows.push(`    { label: '${option.label}', value: ${option.value}${option.color ? `, color: '${option.color}'` : ''} },`);
+        }
+        rows.push(`  ];`);
+      }
+    }
     rows.push(``);
     rows.push(`  constructor(`);
     rows.push(`    private readonly fb: FormBuilder,`);
@@ -185,7 +195,7 @@ const template: Template = {
   },
 
   // HTML文件
-  html: config => {
+  html: (config, camelName, CamelName, UNDER_LINE) => {
     const rows = [];
 
     const tableFields = config.fields.filter(i => i.tableConfig);
@@ -215,10 +225,27 @@ const template: Template = {
     rows.push(`    <tbody>`);
     rows.push(`    <tr *ngFor="let data of table.data">`);
     for (const field of tableFields) {
-      rows.push(
-        `      <td>${field.tableConfig.prefix ? field.tableConfig.prefix : ''}` +
-        `{{ ${field.tableConfig.parse ? field.tableConfig.parse('data.' + field.name) : ('data.' + field.name)} }}` +
-        `${field.tableConfig.suffix ? field.tableConfig.suffix : ''}</td>`);
+      if (field.selector) {
+        const selectionName = `${UNDER_LINE}_${CommonUtils.camelToUnderline(field.name).toUpperCase()}`;
+        rows.push(`      <td>`);
+        rows.push(`        <nz-tag *ngIf="!inLabelValues(${selectionName}, data.${field.name})" nz-dropdown [nzDropdownMenu]="${field.name}DropdownMenu" nzColor="gray">未知</nz-tag>`);
+        rows.push(`        <ng-container *ngFor="let i of ${selectionName}">`);
+        rows.push(`          <nz-tag *ngIf="data.${field.name} === i.value" [nzColor]="i.color"`);
+        rows.push(`                  nz-dropdown [nzDropdownMenu]="${field.name}DropdownMenu">{{ i.label }}</nz-tag>`);
+        rows.push(`        </ng-container>`);
+        rows.push(`        <nz-dropdown-menu #${field.name}DropdownMenu="nzDropdownMenu">`);
+        rows.push(`          <ul nz-menu nzSelectable style="text-align: center;">`);
+        rows.push(`            <li *ngFor="let i of ${selectionName}" nz-menu-item`);
+        rows.push(`                (click)="change${field.name[0].toUpperCase() + field.name.substring(1)}(data.id, i.value);" [ngStyle]="{ color: i.color }">{{i.label}}</li>`);
+        rows.push(`          </ul>`);
+        rows.push(`        </nz-dropdown-menu>`);
+        rows.push(`      </td>`);
+      } else {
+        rows.push(
+            `      <td>${field.tableConfig.prefix ? field.tableConfig.prefix : ''}` +
+            `{{ ${field.tableConfig.parse ? field.tableConfig.parse('data.' + field.name) : ('data.' + field.name)} }}` +
+            `${field.tableConfig.suffix ? field.tableConfig.suffix : ''}</td>`);
+      }
     }
     rows.push(`      <td>`);
     rows.push(`        <a (click)="showSaveDialog(data);">修改</a>`);
@@ -245,11 +272,21 @@ const template: Template = {
         `${field.comment ? field.comment : field.name}</nz-form-label>`
       );
       rows.push(`              <nz-form-control [nzSpan]="18">`);
-      rows.push(
-        `                <input nz-input formControlName="${field.name}" ` +
-        `id="${field.name}_" placeholder="` +
-        `${field.searchConfig.placeholder ? field.searchConfig.placeholder : ((field.comment ? field.comment : field.name) + '模糊搜索')}">`
-      );
+      if (field.selector) {
+        rows.push(
+            `            <nz-select id="${field.name}_" formControlName="${field.name}" nzPlaceHolder="` +
+            `${field.searchConfig.placeholder ? field.searchConfig.placeholder : ((field.comment ? field.comment : field.name) + '搜索')}` +
+            `" nzAllowClear>`
+        );
+        rows.push(`              <nz-option *ngFor="let i of ${UNDER_LINE}_${CommonUtils.camelToUnderline(field.name).toUpperCase()}" [nzValue]="i.value" [nzLabel]="i.label"></nz-option>`);
+        rows.push(`            </nz-select>`);
+      } else {
+        rows.push(
+            `                <input nz-input formControlName="${field.name}" ` +
+            `id="${field.name}_" placeholder="` +
+            `${field.searchConfig.placeholder ? field.searchConfig.placeholder : ((field.comment ? field.comment : field.name) + '模糊搜索')}">`
+        );
+      }
       rows.push(`              </nz-form-control>`);
       rows.push(`            </nz-form-item>`);
       rows.push(`          </div>`);
@@ -297,11 +334,21 @@ const template: Template = {
           `${field.comment ? field.comment : field.name}</nz-form-label>`
         );
         rows.push(`          <nz-form-control>`);
-        rows.push(
-          `            <input nz-input id="${field.name}_" ` +
-          `formControlName="${field.name}" placeholder="` +
-          `${field.searchConfig.placeholder ? field.searchConfig.placeholder : ((field.comment ? field.comment : field.name) + '模糊搜索')}">`
-        );
+        if (field.selector) {
+          rows.push(
+              `            <nz-select id="${field.name}_" formControlName="${field.name}" nzPlaceHolder="` +
+              `${field.searchConfig.placeholder ? field.searchConfig.placeholder : ((field.comment ? field.comment : field.name) + '搜索')}` +
+              `" nzAllowClear>`
+          );
+          rows.push(`              <nz-option *ngFor="let i of ${UNDER_LINE}_${CommonUtils.camelToUnderline(field.name).toUpperCase()}" [nzValue]="i.value" [nzLabel]="i.label"></nz-option>`);
+          rows.push(`            </nz-select>`);
+        } else {
+          rows.push(
+              `            <input nz-input formControlName="${field.name}" ` +
+              `id="${field.name}_" placeholder="` +
+              `${field.searchConfig.placeholder ? field.searchConfig.placeholder : ((field.comment ? field.comment : field.name) + '模糊搜索')}">`
+          );
+        }
         rows.push(`          </nz-form-control>`);
         rows.push(`        </nz-form-item>`);
         rows.push(`      </div>`);
@@ -321,7 +368,7 @@ const template: Template = {
     rows.push(`  <form nz-form [formGroup]="form" nzLayout="vertical">`);
     rows.push(`    <div nz-row nzGutter="10">`);
     for (const field of config.fields) {
-      if (field.saveModalConfig) {
+      if (field.saveModalConfig && !field.selector) {
         rows.push(`      <div nz-col nzSpan="${field.saveModalConfig.width ? field.saveModalConfig.width : '8'}">`);
         rows.push(`        <nz-form-item>`);
         rows.push(

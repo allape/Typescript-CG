@@ -86,6 +86,11 @@ export interface Field {
      */
     saveModalConfig?: SaveModalConfig;
 
+    /**
+     * 是否为选择器的字段; 如果该字段存在: 搜索添加处则会为下拉框
+     */
+    selector?: SelectorConfig;
+
 }
 
 /**
@@ -169,3 +174,15 @@ export interface SaveModalConfig {
 
 }
 
+/**
+ * 下拉选择框配置
+ */
+export interface SelectorConfig {
+
+    /**
+     * 下拉选择项
+     * value是字符串时, 加上引号
+     */
+    options: { label: string, value: any, color?: string }[];
+
+}

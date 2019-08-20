@@ -19,6 +19,13 @@ const config: Config = {
             searchConfig: {  },
             saveModalConfig: { control: '[ null, Validators.required ]', errorTip: '请输入客户姓名!' },
             tableConfig: {  },
+            selector: {
+                options: [
+                    { label: '女', value: 0, color: 'pink' },
+                    { label: '男', value: 1, color: 'blue' },
+                    { label: '其他', value: null, color: 'gray' },
+                ],
+            },
         }
     ],
 
