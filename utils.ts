@@ -94,11 +94,12 @@ class CommonUtils {
 class FSUtils {
 
   /**
-   * 格式化文件格式 -> 最主要的操作就是将当前路径的文件前添加一个./或.\
+   * 格式化文件格式 -> 替换反斜杠为斜杆, 开头不是绝对路径的, 添加./
    * @param filepath 文件路径
    */
   public static parseFilepath(filepath: string): string {
-    return /^([a-zA-Z]:[\/\\]|\/|\.[\/\\])/.test(filepath) ? filepath : ('.' + path.sep + filepath);
+    filepath = filepath.replace(/\\/gi, '/');
+    return /^([a-zA-Z]:\/|\/|\.\/)/.test(filepath) ? filepath : ('./' + filepath);
   }
 
   /**
