@@ -14,6 +14,7 @@ const template: Template = {
     rows.push(`import {ControlValueAccessor, FormBuilder, NG_VALUE_ACCESSOR} from '@angular/forms';`);
     rows.push(`import {BaseComponent, PageRes} from '../../../../standards/base-component';`);
     rows.push(`import {NzMessageService} from 'ng-zorro-antd';`);
+    rows.push(`import {HttpClient} from '@angular/common/http';`);
     rows.push(`import {Res, uris, url} from '../../../../configs/http.config';`);
     rows.push(`import {Area, AreaService} from '../../../base/services/area.service';`);
     rows.push(`import {LoadingService} from '../../../../services/loading.service';`);
@@ -155,6 +156,12 @@ const template: Template = {
     rows.push(`  }`);
     rows.push(``);
     rows.push(`  setDisabledState(isDisabled: boolean): void {`);
+    rows.push(`    this.disabled = isDisabled;`);
+    rows.push(`    if (isDisabled) {`);
+    rows.push(`      this.searchForm.disable();`);
+    rows.push(`    } else {`);
+    rows.push(`      this.searchForm.enable();`);
+    rows.push(`    }`);
     rows.push(`  }`);
     rows.push(``);
     rows.push(`  // 上一次回填的ID`);
@@ -196,7 +203,7 @@ const template: Template = {
     const extraSearchFields = config.fields.filter(i => i.searchConfig && i.searchConfig.header !== true);
 
     rows.push(`<nz-input-group [nzSuffix]="suffixTemplate">`);
-    rows.push(`  <input nz-input [ngModel]="label" readonly [placeholder]="placeholder" (click)="onTouched();" class="display-input"`);
+    rows.push(`  <input nz-input [ngModel]="label" [readonly]="readonly" [placeholder]="placeholder" (click)="onTouched();" class="display-input"`);
     rows.push(`         nz-popover [(nzVisible)]="popover" nzTitle="${config.label}选择列表" [nzContent]="selector" nzTrigger="click" />`);
     rows.push(`</nz-input-group>`);
     rows.push(`<ng-template #suffixTemplate>`);
@@ -225,38 +232,32 @@ const template: Template = {
     rows.push(`      </tr>`);
     rows.push(`      </thead>`);
     rows.push(`      <tbody>`);
-    rows.push(`      <ng-container *ngFor="let data of table.data">`);
-    rows.push(`        <tr class="selectable-row" (click)="onSelect(data);">`);
+    rows.push(`        <ng-container *ngFor="let data of table.data">`);
+    rows.push(`          <tr class="selectable-row" (click)="onSelect(data);">`);
     for (const field of tableFields) {
       if (field.selector) {
         const selectionName = `${UNDER_LINE}_${CommonUtils.camelToUnderline(field.name).toUpperCase()}`;
-        rows.push(`        <td>`);
-        rows.push(`          <nz-tag *ngIf="!inLabelValues(${selectionName}, data.${field.name})" nz-dropdown [nzDropdownMenu]="${field.name}DropdownMenu" nzColor="gray">未知</nz-tag>`);
-        rows.push(`          <ng-container *ngFor="let i of ${selectionName}">`);
-        rows.push(`            <nz-tag *ngIf="data.${field.name} === i.value" [nzColor]="i.color"`);
-        rows.push(`                    nz-dropdown [nzDropdownMenu]="${field.name}DropdownMenu">{{ i.label }}</nz-tag>`);
-        rows.push(`          </ng-container>`);
-        rows.push(`          <nz-dropdown-menu #${field.name}DropdownMenu="nzDropdownMenu">`);
-        rows.push(`            <ul nz-menu nzSelectable style="text-align: center;">`);
-        rows.push(`              <li *ngFor="let i of ${selectionName}" nz-menu-item`);
-        rows.push(`                  (click)="change${field.name[0].toUpperCase() + field.name.substring(1)}(data.id, i.value);" [ngStyle]="{ color: i.color }">{{i.label}}</li>`);
-        rows.push(`            </ul>`);
-        rows.push(`          </nz-dropdown-menu>`);
-        rows.push(`        </td>`);
+        rows.push(`            <td>`);
+        rows.push(`              <nz-tag *ngIf="!inLabelValues(${selectionName}, data.${field.name})" nzColor="gray">未知</nz-tag>`);
+        rows.push(`              <ng-container *ngFor="let i of ${selectionName}">`);
+        rows.push(`                <nz-tag *ngIf="data.${field.name} === i.value" [nzColor]="i.color">{{ i.label }}</nz-tag>`);
+        rows.push(`              </ng-container>`);
+        rows.push(`            </td>`);
       } else {
         rows.push(
-          `        <td>${field.tableConfig.prefix ? field.tableConfig.prefix : ''}` +
+          `            <td>${field.tableConfig.prefix ? field.tableConfig.prefix : ''}` +
           `{{ ${field.tableConfig.parse ? field.tableConfig.parse('data.' + field.name) : ('data.' + field.name)} }}` +
           `${field.tableConfig.suffix ? field.tableConfig.suffix : ''}</td>`);
       }
     }
-    rows.push(`      </tr>`);
+    rows.push(`          </tr>`);
+    rows.push(`        </ng-container>`);
     rows.push(`      </tbody>`);
     rows.push(`    </nz-table>`);
     rows.push(`  </nz-card>`);
 
     rows.push(``);
-    rows.push(`<!-- 卡片标题模板 -->`);
+    rows.push(`  <!-- 卡片标题模板 -->`);
     rows.push(`  <ng-template #titleTpl>`);
     rows.push(`    <div nz-row nzGutter="10" nzType="flex" nzJustify="space-around" nzAlign="middle" class="page-title">`);
     rows.push(`      <div nz-col nzLg="24" nzSpan="24">`);
@@ -265,11 +266,7 @@ const template: Template = {
     for (const field of headerSearchFields) {
       rows.push(`            <div nz-col nzLg="8" nzSpan="24">`);
       rows.push(`              <nz-form-item>`);
-      rows.push(
-        `                <nz-form-label [nzSpan]="6" nzFor="${field.name}_">` +
-        `${field.comment ? field.comment : field.name}</nz-form-label>`
-      );
-      rows.push(`                <nz-form-control [nzSpan]="18">`);
+      rows.push(`                <nz-form-control>`);
       if (field.selector) {
         rows.push(
             `              <nz-select id="${field.name}_" formControlName="${field.name}" nzPlaceHolder="` +
