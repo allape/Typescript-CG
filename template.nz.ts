@@ -1,10 +1,13 @@
 import { Template } from './template';
 const { CommonUtils } = require('./utils');
 
+/**
+ * 创建正常的增删改查的列表
+ */
 const template: Template = {
 
   // TS文件
-  ts: (config, camelName, CamelName, UNDER_LINE, under_line, fieldMaxLength) => {
+  '.component.ts': (config, camelName, CamelName, UNDER_LINE, under_line, fieldMaxLength) => {
     const rows = [];
 
     rows.push(`import {Component, Injector, OnInit, TemplateRef, ViewChild} from '@angular/core';`);
@@ -26,14 +29,17 @@ const template: Template = {
     rows.push(``);
     for (const field of config.fields) {
       if (field.selector) {
+        rows.push(`  /**`);
+        rows.push(`   * ${field.comment}下拉选择内容`);
+        rows.push(`   */`);
         rows.push(`  public readonly ${UNDER_LINE}_${CommonUtils.camelToUnderline(field.name).toUpperCase()}: LabelValue[] = [`);
         for (const option of field.selector.options) {
           rows.push(`    { label: '${option.label}', value: ${option.value}${option.color ? `, color: '${option.color}'` : ''} },`);
         }
         rows.push(`  ];`);
+        rows.push(``);
       }
     }
-    rows.push(``);
     rows.push(`  constructor(`);
     rows.push(`    private readonly fb: FormBuilder,`);
     rows.push(`    private readonly msg: NzMessageService,`);
@@ -195,7 +201,7 @@ const template: Template = {
   },
 
   // HTML文件
-  html: (config, camelName, CamelName, UNDER_LINE) => {
+  '.component.html': (config, camelName, CamelName, UNDER_LINE) => {
     const rows = [];
 
     const tableFields = config.fields.filter(i => i.tableConfig);
@@ -398,7 +404,7 @@ const template: Template = {
   },
 
   // spec.ts文件
-  'spec.ts': (config, camelName, CamelName) => {
+  '.component.spec.ts': (config, camelName, CamelName) => {
     const rows = [];
     rows.push(`import { async, ComponentFixture, TestBed } from '@angular/core/testing';`);
     rows.push(``);
@@ -430,7 +436,7 @@ const template: Template = {
   },
 
   // LESS文件
-  less: () => []
+  '.component.less': () => []
 
 };
 

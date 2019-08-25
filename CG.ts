@@ -76,7 +76,7 @@ for (const configFile of configs) {
     // abc_def
     const under_line = UNDER_LINE.toLowerCase();
     // 生成文件 + 写入文件
-    const filename = config.path + config.name + '.component.' + key;
+    const filename = config.path + config.name + key;
     try {
       FSUtils.writeRows(filename, template[key](config, camelName, CamelName, UNDER_LINE, under_line, fieldMaxLength));
       console.log('已生成:', filename);
