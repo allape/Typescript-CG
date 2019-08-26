@@ -72,7 +72,7 @@ for (const configFile of configs) {
     // abcDef
     const camelName = CamelName[0].toLowerCase() + CamelName.substring(1);
     // ABC_DEF
-    const UNDER_LINE = config.name.replace('-', '_').toUpperCase();
+    const UNDER_LINE = config.name.replace(/-/gi, '_').toUpperCase();
     // abc_def
     const under_line = UNDER_LINE.toLowerCase();
     // 生成文件 + 写入文件
