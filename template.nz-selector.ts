@@ -16,7 +16,6 @@ const template: Template = {
     rows.push(`import {NzMessageService} from 'ng-zorro-antd';`);
     rows.push(`import {HttpClient} from '@angular/common/http';`);
     rows.push(`import {Res, uris, url} from '../../../../configs/http.config';`);
-    rows.push(`import {Area, AreaService} from '../../../base/services/area.service';`);
     rows.push(`import {LoadingService} from '../../../../services/loading.service';`);
     rows.push(``);
     rows.push(`@Component({`);
@@ -31,7 +30,7 @@ const template: Template = {
     rows.push(`    }`);
     rows.push(`  ]`);
     rows.push(`})`);
-    rows.push(`export class ${CamelName}SelectorComponent extends BaseComponent implements OnInit {`);
+    rows.push(`export class ${CamelName}SelectorComponent implements OnInit, ControlValueAccessor {`);
     rows.push(``);
     rows.push(`  // 是否设置为了只读`);
     rows.push(`  @Input()`);
