@@ -44,6 +44,10 @@ const template: Template = {
     rows.push(`  @Input()`);
     rows.push(`  public placeholder: string = null;`);
     rows.push(``);
+    rows.push(`  // 选中时回调`);
+    rows.push(`  @Output()`);
+    rows.push(`  public selected: EventEmitter<${CamelName}> = new EventEmitter<${CamelName}>();`);
+    rows.push(``);
     rows.push(`  // 当前选择框是否弹出`);
     rows.push(`  public popover = false;`);
     rows.push(``);
@@ -128,6 +132,7 @@ const template: Template = {
     rows.push(`      this.label = null;`);
     rows.push(`    }`);
     rows.push(`    this.popover = false;`);
+    rows.push(`    this.selected.emit(item);`);
     rows.push(`    if (this.onChange) this.onChange(this.value);`);
     rows.push(`    if (this.onTouched) this.onTouched();`);
     rows.push(`  }`);
