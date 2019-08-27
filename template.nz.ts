@@ -387,23 +387,43 @@ const template: Template = {
     rows.push(`  <form nz-form [formGroup]="form" nzLayout="vertical">`);
     rows.push(`    <div nz-row nzGutter="10">`);
     for (const field of config.fields) {
-      if (field.saveModalConfig && !field.selector) {
+      if (field.saveModalConfig) {
         rows.push(`      <div nz-col nzSpan="${field.saveModalConfig.width ? field.saveModalConfig.width : '8'}">`);
         rows.push(`        <nz-form-item>`);
         rows.push(
-          `          <nz-form-label nzFor="${field.name}"` +
-          `${field.saveModalConfig.required ? ' nzRequired' : ''}>${field.comment ? field.comment : field.name}</nz-form-label>`
+            `          <nz-form-label nzFor="${field.name}"` +
+            `${field.saveModalConfig.required ? ' nzRequired' : ''}>${field.comment ? field.comment : field.name}</nz-form-label>`
         );
         rows.push(
-          `          <nz-form-control${field.saveModalConfig.errorTip ? ' nzErrorTip="' + field.saveModalConfig.errorTip + '"' : ''}>`
+            `          <nz-form-control${field.saveModalConfig.errorTip ? ' nzErrorTip="' + field.saveModalConfig.errorTip + '"' : ''}>`
         );
-        rows.push(
-          `            <input nz-input id="${field.name}" ` +
-          `formControlName="${field.name}" ` +
-          `[readonly]="formReadonly" ` +
-          `placeholder="` +
-          `${field.saveModalConfig.placeholder ? field.saveModalConfig.placeholder : field.comment ? field.comment : field.name}">`
-        );
+        if (field.selector) {
+          rows.push(
+              `            <nz-select id="${field.name}" formControlName="${field.name}" nzPlaceHolder="` +
+              `${field.saveModalConfig.placeholder ? field.saveModalConfig.placeholder : ((field.comment ? field.comment : field.name))}` +
+              `">`
+          );
+          rows.push(`              <nz-option *ngFor="let i of ${UNDER_LINE}_${CommonUtils.camelToUnderline(field.name).toUpperCase()}" [nzValue]="i.value" [nzLabel]="i.label"></nz-option>`);
+          rows.push(`            </nz-select>`);
+        } else {
+          if (field.type === 'number') {
+            rows.push(
+                `            <nz-input-number nzMin="0" nzPrecision="0" ` +
+                `id="${field.name}" formControlName="${field.name}" ` +
+                `[nzDisabled]="formReadonly" ` +
+                `nzPlaceHolder="` +
+                `${field.saveModalConfig.placeholder ? field.saveModalConfig.placeholder : field.comment ? field.comment : field.name}">`
+            );
+          } else {
+            rows.push(
+                `            <input nz-input id="${field.name}" ` +
+                `formControlName="${field.name}" ` +
+                `[readonly]="formReadonly" ` +
+                `placeholder="` +
+                `${field.saveModalConfig.placeholder ? field.saveModalConfig.placeholder : field.comment ? field.comment : field.name}">`
+            );
+          }
+        }
         rows.push(`          </nz-form-control>`);
         rows.push(`        </nz-form-item>`);
         rows.push(`      </div>`);
