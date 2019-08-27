@@ -156,11 +156,6 @@ const template: Template = {
     rows.push(``);
     rows.push(`  setDisabledState(isDisabled: boolean): void {`);
     rows.push(`    this.disabled = isDisabled;`);
-    rows.push(`    if (isDisabled) {`);
-    rows.push(`      this.searchForm.disable();`);
-    rows.push(`    } else {`);
-    rows.push(`      this.searchForm.enable();`);
-    rows.push(`    }`);
     rows.push(`  }`);
     rows.push(``);
     rows.push(`  // 上一次回填的ID`);
@@ -202,8 +197,10 @@ const template: Template = {
     const extraSearchFields = config.fields.filter(i => i.searchConfig && i.searchConfig.header !== true);
 
     rows.push(`<nz-input-group [nzSuffix]="suffixTemplate">`);
-    rows.push(`  <input nz-input [ngModel]="label" [readonly]="readonly" [placeholder]="placeholder" (click)="onTouched();" class="display-input"`);
-    rows.push(`         nz-popover [(nzVisible)]="popover" nzTitle="${config.label}选择列表" [nzContent]="selector" nzTrigger="click" />`);
+    rows.push(`  <input nz-input [ngModel]="label" [ngModelOptions]="{ standalone: true }" `);
+    rows.push(`         readonly [disabled]="readonly || disabled"`);
+    rows.push(`         [placeholder]="placeholder" (click)="onTouched();" class="display-input"`);
+    rows.push(`         nz-popover [(nzVisible)]="popover" nzTitle="选择${config.label}" [nzContent]="selector" nzTrigger="click" />`);
     rows.push(`</nz-input-group>`);
     rows.push(`<ng-template #suffixTemplate>`);
     rows.push(`  <i nz-icon nz-tooltip class="ant-input-clear-icon"`);
