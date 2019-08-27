@@ -178,8 +178,7 @@ const template: Template = {
     rows.push(``);
     rows.push(`      // 根据ID查询出数据, 实现对label的回填`);
     rows.push(`      this.http.get<Res<${CamelName}>>(url(uris.${config.module}.${camelName}.${camelName}, obj)).subscribe(res => {`);
-    rows.push(`        // FIXME 回填显示的label`);
-    rows.push(`        this.label = res.data.id;`);
+    rows.push(`        this.onSelect(res.data);`);
     rows.push(`      });`);
     rows.push(`    } else {`);
     rows.push(`      this.onSelect(null);`);
