@@ -399,8 +399,8 @@ const template: Template = {
         );
         rows.push(
           `            <input nz-input id="${field.name}" ` +
-          `[readonly]="formReadonly" ` +
           `formControlName="${field.name}" ` +
+          `[readonly]="formReadonly" ` +
           `placeholder="` +
           `${field.saveModalConfig.placeholder ? field.saveModalConfig.placeholder : field.comment ? field.comment : field.name}">`
         );
