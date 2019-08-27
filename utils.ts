@@ -67,19 +67,21 @@ class CommonUtils {
       case 'bigint':
       case 'float':
       case 'double':
-      case 'decimal': return 'number';
+      case 'decimal':
+      case 'timestamp': return 'number';
       case 'date':
       case 'time':
-      case 'datetime':
-      case 'timestamp':
-      case 'longtext':
+      case 'datetime': return 'string | Date';
+      case 'tinytext':
       case 'mediumtext':
       case 'text':
+      case 'longtext':
       case 'enum':
       case 'char':
       case 'varchar': return 'string';
       case 'set':
       case 'blob':
+      case 'tinyblob':
       case 'mediumblob':
       case 'longblob':
       default: return 'any';

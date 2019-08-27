@@ -40,6 +40,16 @@ const template: Template = {
         rows.push(``);
       }
     }
+    rows.push(``);
+    const dateFields = config.fields.filter(i => i.type.includes('Date'));
+    if (dateFields.length > 0) {
+      rows.push(`  private readonly DATETIME_FIELDS = [`);
+      for (const f of dateFields) {
+        rows.push(`    '${f.name}',`);
+      }
+      rows.push(`  ];`);
+      rows.push(``);
+    }
     rows.push(`  constructor(`);
     rows.push(`    private readonly fb: FormBuilder,`);
     rows.push(`    private readonly msg: NzMessageService,`);
@@ -91,6 +101,9 @@ const template: Template = {
     rows.push(`      { params: BaseComponent.getNonnullValue(this.searchForm) }`);
     rows.push(`    ).subscribe(res => {`);
     rows.push(`      this.page = res.data;`);
+    if (dateFields.length > 0) {
+      rows.push(`      this.page.list.forEach(i => this.DATETIME_FIELDS.forEach(j => i[j] = this.dateFormat(i[j], this.DEFAULT_DATETIME_FORMAT, '-')));`);
+    }
     rows.push(`    });`);
     rows.push(`  }`);
     rows.push(``);
