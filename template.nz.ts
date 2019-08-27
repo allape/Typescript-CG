@@ -412,7 +412,7 @@ const template: Template = {
                 `id="${field.name}" formControlName="${field.name}" ` +
                 `[nzDisabled]="formReadonly" ` +
                 `nzPlaceHolder="` +
-                `${field.saveModalConfig.placeholder ? field.saveModalConfig.placeholder : field.comment ? field.comment : field.name}">`
+                `${field.saveModalConfig.placeholder ? field.saveModalConfig.placeholder : field.comment ? field.comment : field.name}"></nz-input-number>`
             );
           } else {
             rows.push(
