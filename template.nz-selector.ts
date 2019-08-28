@@ -200,7 +200,7 @@ const template: Template = {
     const headerSearchFields = config.fields.filter(i => i.searchConfig && i.searchConfig.header === true);
     const extraSearchFields = config.fields.filter(i => i.searchConfig && i.searchConfig.header !== true);
 
-    rows.push(`<nz-input-group [nzSuffix]="suffixTemplate">`);
+    rows.push(`<nz-input-group [nzSuffix]="readonly || disabled ? null : suffixTemplate">`);
     rows.push(`  <input nz-input [ngModel]="label" [ngModelOptions]="{ standalone: true }" `);
     rows.push(`         readonly [disabled]="readonly || disabled"`);
     rows.push(`         [placeholder]="placeholder" (click)="onTouched();" class="display-input"`);
@@ -393,6 +393,10 @@ const template: Template = {
   '-selector.component.less': () => [
     '.display-input,.selectable-row {',
     '  cursor: pointer;',
+    '}',
+    '',
+    '.display-input[disabled] {',
+    '  cursor: not-allowed;',
     '}',
     '',
   ]
