@@ -173,7 +173,7 @@ const template: Template = {
     rows.push(`    }`);
     rows.push(``);
     rows.push(`    const modalRef = this.modal.create({`);
-    rows.push(`      nzTitle: item ? '修改${config.label}' : '新增${config.label}',`);
+    rows.push(`      nzTitle: item ? (readonly ? '${config.label}详情' : '修改${config.label}') : '新增${config.label}',`);
     rows.push(`      nzContent: this.saveFormTpl,`);
     rows.push(`      nzWidth: 800,`);
     rows.push(`      nzStyle: { top: '20px' },`);
