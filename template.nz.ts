@@ -224,7 +224,7 @@ const template: Template = {
     rows.push(`<nz-card class="page-card" [nzTitle]="titleTpl"${ extraSearchFields.length > 0 ? ' [nzExtra]="extraTpl"' : '' }>`);
     rows.push(`  <nz-table #table`);
     rows.push(`            [nzLoading]="loading.loading()"`);
-    rows.push(`            [nzScroll]="getAvailableTableScroll(0)"`);
+    rows.push(`            [nzScroll]="getAvailableTableScroll(0, '1200px')"`);
     rows.push(`            [nzShowTotal]="tableRangeTpl"`);
     rows.push(`            [nzFrontPagination]="false"`);
     rows.push(`            nzShowPagination nzShowSizeChanger`);
@@ -260,13 +260,27 @@ const template: Template = {
         rows.push(`        </nz-dropdown-menu>`);
         rows.push(`      </td>`);
       } else {
-        rows.push(
-            `      <td>${field.tableConfig.prefix ? field.tableConfig.prefix : ''}` +
-            `{{ ${field.tableConfig.parse ? field.tableConfig.parse('data.' + field.name) : ('data.' + field.name)} }}` +
-            `${field.tableConfig.suffix ? field.tableConfig.suffix : ''}</td>`);
+        if (field.tableConfig.overflow) {
+          rows.push(`      <td>`);
+          rows.push(
+              `        <span class="ellipsis-text" style="width: ` +
+              `${field.tableConfig.width ? (parseInt(field.tableConfig.width as string, 10) - 80) + 'px' : '220px'};" ` +
+              `nz-tooltip [nzTitle]="data.${field.name}">` +
+              `${field.tableConfig.prefix ? field.tableConfig.prefix : ''}` +
+              `{{ ${field.tableConfig.parse ? field.tableConfig.parse('data.' + field.name) : ('data.' + field.name)} }}` +
+              `${field.tableConfig.suffix ? field.tableConfig.suffix : ''}` +
+              `</span>`
+          );
+          rows.push(`      </td>`);
+        } else {
+          rows.push(
+              `      <td>${field.tableConfig.prefix ? field.tableConfig.prefix : ''}` +
+              `{{ ${field.tableConfig.parse ? field.tableConfig.parse('data.' + field.name) : ('data.' + field.name)} }}` +
+              `${field.tableConfig.suffix ? field.tableConfig.suffix : ''}</td>`);
+        }
       }
     }
-    rows.push(`      <td>`);
+    rows.push(`      <td nzWidth="120px" nzRight="0">`);
     rows.push(`        <a (click)="showSaveDialog(data);">修改</a>`);
     rows.push(`        <nz-divider nzType="vertical"></nz-divider>`);
     rows.push(`        <a nz-popconfirm nzTitle="确定删除该${config.label}?" (nzOnConfirm)="del(data.id);">删除</a>`);

@@ -116,7 +116,15 @@ export interface TableConfig {
     /**
      * 字段预设宽度
      */
-    width?: string;
+    width?: string | number;
+
+    /**
+     * 是否为超长字段, 为超长字段会使用以下格式
+     * <code>
+     *     <span class="ellipsis-text" style="width: width;" nz-tooltip [nzTitle]="data.xxx">{{ data.xxx }}</span>
+     * </code>
+     */
+    overflow?: boolean;
 
 }
 
