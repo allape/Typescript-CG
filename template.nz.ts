@@ -301,10 +301,10 @@ const template: Template = {
       rows.push(`          <div nz-col nzLg="8" nzSpan="24">`);
       rows.push(`            <nz-form-item>`);
       rows.push(
-        `              <nz-form-label [nzSpan]="6" nzFor="${field.name}_">` +
+        `              <nz-form-label nzSpan="6" nzFor="${field.name}_">` +
         `${field.comment ? field.comment : field.name}</nz-form-label>`
       );
-      rows.push(`              <nz-form-control [nzSpan]="18">`);
+      rows.push(`              <nz-form-control nzSpan="18">`);
       if (field.selector) {
         rows.push(
             `            <nz-select id="${field.name}_" formControlName="${field.name}" nzPlaceHolder="` +
