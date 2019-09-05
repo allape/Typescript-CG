@@ -10,7 +10,7 @@ const template: Template = {
   '-selector.component.ts': (config, camelName, CamelName, UNDER_LINE, under_line, fieldMaxLength) => {
     const rows = [];
 
-    rows.push(`import {Component, forwardRef, Input, OnInit} from '@angular/core';`);
+    rows.push(`import {Component, EventEmitter, forwardRef, Input, OnInit, Output} from '@angular/core';`);
     rows.push(`import {ControlValueAccessor, FormBuilder, NG_VALUE_ACCESSOR} from '@angular/forms';`);
     rows.push(`import {BaseComponent, PageRes} from '../../../../standards/base-component';`);
     rows.push(`import {NzMessageService} from 'ng-zorro-antd';`);
