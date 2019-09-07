@@ -238,7 +238,7 @@ const template: Template = {
       rows.push(`      <th${field.tableConfig.width ? ' nzWidth="' + field.tableConfig.width + '"' : ''}>` +
         `${field.comment ? field.comment : field.name}</th>`);
     }
-    rows.push(`      <th>操作</th>`);
+    rows.push(`      <th nzWidth="120px">操作</th>`);
     rows.push(`    </tr>`);
     rows.push(`    </thead>`);
     rows.push(`    <tbody>`);
@@ -280,7 +280,7 @@ const template: Template = {
         }
       }
     }
-    rows.push(`      <td nzWidth="120px" nzRight="0">`);
+    rows.push(`      <td nzRight="0">`);
     rows.push(`        <a (click)="showSaveDialog(data);">修改</a>`);
     rows.push(`        <nz-divider nzType="vertical"></nz-divider>`);
     rows.push(`        <a nz-popconfirm nzTitle="确定删除该${config.label}?" (nzOnConfirm)="del(data.id);">删除</a>`);
