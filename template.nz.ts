@@ -238,7 +238,7 @@ const template: Template = {
       rows.push(`      <th${field.tableConfig.width ? ' nzWidth="' + field.tableConfig.width + '"' : ''}>` +
         `${field.comment ? field.comment : field.name}</th>`);
     }
-    rows.push(`      <th nzWidth="120px">操作</th>`);
+    rows.push(`      <th nzWidth="120px" nzRight="0">操作</th>`);
     rows.push(`    </tr>`);
     rows.push(`    </thead>`);
     rows.push(`    <tbody>`);
