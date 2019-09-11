@@ -11,10 +11,11 @@ const template: Template = {
     const rows = [];
 
     rows.push(`import {Component, Injector, OnInit, TemplateRef, ViewChild} from '@angular/core';`);
-    rows.push(`import {BaseComponent, BaseEntity, LabelValue, PageRes} from '../../../standards/base-component';`);
+    rows.push(`import {BaseComponent, BaseEntity, LabelValue, PageRes, Res} from '../../../standards/base-component';`);
     rows.push(`import {FormBuilder, FormGroup, Validators} from '@angular/forms';`);
     rows.push(`import {NzMessageService, NzModalService} from 'ng-zorro-antd';`);
-    rows.push(`import {Res, uris, url} from '../../../configs/http.config';`);
+    rows.push(`import {uris} from '../../../configs/http.config';`);
+    rows.push(`import {url} from '../../../utils/http-utils';`);
     rows.push(``);
     if (config.useMoment) {
       rows.push(`import * as moment from 'moment';`);

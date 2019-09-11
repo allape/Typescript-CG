@@ -12,11 +12,12 @@ const template: Template = {
 
     rows.push(`import {Component, EventEmitter, forwardRef, Input, OnInit, Output} from '@angular/core';`);
     rows.push(`import {ControlValueAccessor, FormBuilder, NG_VALUE_ACCESSOR} from '@angular/forms';`);
-    rows.push(`import {BaseComponent, PageRes} from '../../../../standards/base-component';`);
+    rows.push(`import {BaseComponent, PageRes, Res} from '../../../../standards/base-component';`);
     rows.push(`import {NzMessageService} from 'ng-zorro-antd';`);
     rows.push(`import {HttpClient} from '@angular/common/http';`);
-    rows.push(`import {Res, uris, url} from '../../../../configs/http.config';`);
+    rows.push(`import {uris} from '../../../../configs/http.config';`);
     rows.push(`import {LoadingService} from '../../../../services/loading.service';`);
+    rows.push(`import {url} from '../../../../utils/http-utils';`);
     rows.push(``);
     rows.push(`@Component({`);
     rows.push(`  selector: 'app-${config.name}-selector',`);
