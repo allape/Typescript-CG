@@ -66,6 +66,10 @@ const template: Template = {
     rows.push(`    this.searchForm.valueChanges.subscribe(() => this.onTouched ? this.onTouched() : null);`);
     rows.push(`  }`);
     rows.push(``);
+    rows.push(`  public voidy(): void {`);
+    rows.push(`    BaseComponent.voidy_();`);
+    rows.push(`  }`);
+    rows.push(``);
     rows.push(`  // region 列表`);
     rows.push(``);
     rows.push(`  /**`);
@@ -214,7 +218,7 @@ const template: Template = {
     rows.push(``);
     rows.push(`<ng-template #selector>`);
     rows.push(`  <!-- 卡片主体 -->`);
-    rows.push(`  <nz-card class="page-card" [nzTitle]="titleTpl" [nzExtra]="extraTpl" style="width: 800px; height: 300px; overflow-y: scroll;">`);
+    rows.push(`  <nz-card class="page-card" [nzTitle]="titleTpl" style="width: 800px; height: 300px; overflow-y: scroll;">`);
     rows.push(`    <nz-table #table`);
     rows.push(`            [nzLoading]="loading.loading()"`);
     rows.push(`            [nzShowTotal]="tableRangeTpl"`);
@@ -293,6 +297,11 @@ const template: Template = {
       `                <button nz-button nzType="primary" [nzLoading]="loading.loading()" (click)="load();">` +
       `<i nz-icon nzType="search" nzTheme="outline"></i> 搜索</button>`
     );
+    if (extraSearchFields.length > 0) {
+      rows.push(`                <button nz-button nzType="primary" [nzLoading]="loading.loading()"`);
+      rows.push(`                        nz-popover nzTitle="高级搜索" [nzContent]="extraPopoverTpl" (nzVisibleChange)="$event ? voidy() : load()"`);
+      rows.push(`                        nzTrigger="click" nzPlacement="bottomRight"><i nz-icon nzType="down" nzTheme="outline"></i></button>`);
+    }
     rows.push(
       `                <button nz-button [nzLoading]="loading.loading()" (click)="this.searchForm.reset(); load();">` +
       `<i nz-icon nzType="redo" nzTheme="outline"></i> 清空</button>`
@@ -305,14 +314,6 @@ const template: Template = {
     rows.push(`    </div>`);
     rows.push(`  </ng-template>`);
     if (extraSearchFields.length > 0) {
-      rows.push(`  <!-- 卡片额外内容模板 -->`);
-      rows.push(`  <ng-template #extraTpl>`);
-      rows.push(`    <button nz-button nzType="link"`);
-      rows.push(`            nz-popover nzTitle="高级搜索" [nzContent]="extraPopoverTpl"`);
-      rows.push(`            nzTrigger="click" nzPlacement="bottomRight">`);
-      rows.push(`      <i nz-icon nzType="down" nzTheme="outline"></i>`);
-      rows.push(`    </button>`);
-      rows.push(`  </ng-template>`);
       rows.push(`  <!-- 卡片额外内容弹出的模板 -->`);
       rows.push(`  <ng-template #extraPopoverTpl>`);
       rows.push(`    <form nz-form [formGroup]="searchForm" nzLayout="vertical" style="width: 600px;">`);
