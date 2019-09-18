@@ -177,7 +177,7 @@ const template: Template = {
     rows.push(`      nzTitle: item ? (readonly ? '${config.label}详情' : '修改${config.label}') : '新增${config.label}',`);
     rows.push(`      nzContent: this.saveFormTpl,`);
     rows.push(`      nzWidth: 800,`);
-    rows.push(`      nzStyle: { top: '20px' },`);
+    rows.push(`      nzStyle: { top: '24px' },`);
     rows.push(`      nzFooter: this.formReadonly ? null : undefined,`);
     rows.push(`      nzOnOk: () => {`);
     rows.push(`        return this.doSaveModal(this.form, url(uris.${config.module}.${camelName}.${camelName}));`);
