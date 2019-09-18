@@ -236,7 +236,8 @@ const template: Template = {
     rows.push(`    <thead>`);
     rows.push(`    <tr>`);
     for (const field of tableFields) {
-      rows.push(`      <th${field.tableConfig.width ? ' nzWidth="' + field.tableConfig.width + '"' : ''}>` +
+      rows.push(`      <th${field.tableConfig.width ? ' nzWidth="' + field.tableConfig.width + 
+          (typeof field.tableConfig.width === 'number' ? 'px' : '') + '"' : ''}>` +
         `${field.comment ? field.comment : field.name}</th>`);
     }
     rows.push(`      <th nzWidth="120px" nzRight="0">操作</th>`);
