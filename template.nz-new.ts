@@ -194,7 +194,7 @@ const template: Template = {
     rows.push(`            nzShowPagination nzShowSizeChanger`);
     rows.push(`            [nzData]="page.list"`);
     rows.push(`            [nzTotal]="page.total" [nzPageIndex]="page.pageNum" [nzPageSize]="page.pageSize"`);
-    rows.push(`            (nzPageIndexChange)="load($event);" (nzPageSizeChange)="load(1, $event);"`);
+    rows.push(`            (nzPageIndexChange)="load($event);" (nzPageSizeChange)="load(0, $event);"`);
     rows.push(`  >`);
     rows.push(`    <thead>`);
     rows.push(`    <tr>`);
