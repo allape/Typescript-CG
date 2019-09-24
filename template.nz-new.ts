@@ -12,7 +12,7 @@ const template: Template = {
 
     rows.push(`import {Component, Injector, OnInit} from '@angular/core';`);
     rows.push(`import {BaseComponent, BaseEntity, LabelValue, PageRes} from '../../../standards/base-component';`);
-    rows.push(`import {FormGroup} from '@angular/forms';`);
+    rows.push(`import {FormGroup, Validators} from '@angular/forms';`);
     rows.push(`import {uris} from '../../../configs/http.config';`);
     rows.push(`import {url} from '../../../utils/http-utils';`);
     rows.push(``);
@@ -133,12 +133,6 @@ const template: Template = {
       }
     }
     rows.push(`  };`);
-    rows.push(``);
-    rows.push(`  /**`);
-    rows.push(`   * 新增修改用到的模板`);
-    rows.push(`   */`);
-    rows.push(`  @ViewChild('saveFormTpl', { static: true })`);
-    rows.push(`  public saveFormTpl: TemplateRef<any>;`);
     rows.push(``);
     rows.push(`  /**`);
     rows.push(`   * 显示新增修改的弹窗`);
