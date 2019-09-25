@@ -58,10 +58,6 @@ const template: Template = {
     rows.push(`    }, injector);`);
     rows.push(`  }`);
     rows.push(``);
-    rows.push(`  ngOnInit() {`);
-    rows.push(`    this.reset();`);
-    rows.push(`  }`);
-    rows.push(``);
     rows.push(`  // region 列表`);
     rows.push(``);
     rows.push(`  /**`);
@@ -272,12 +268,12 @@ const template: Template = {
       rows.push(`              <nz-form-control nzSpan="18">`);
       if (field.selector) {
         rows.push(
-            `            <nz-select id="${field.name}_" formControlName="${field.name}" nzPlaceHolder="` +
+            `                <nz-select id="${field.name}_" formControlName="${field.name}" nzPlaceHolder="` +
             `${field.searchConfig.placeholder ? field.searchConfig.placeholder : ((field.comment ? field.comment : field.name) + '搜索')}` +
             `" nzAllowClear>`
         );
-        rows.push(`              <nz-option *ngFor="let i of ${UNDER_LINE}_${CommonUtils.camelToUnderline(field.name).toUpperCase()}" [nzValue]="i.value" [nzLabel]="i.label"></nz-option>`);
-        rows.push(`            </nz-select>`);
+        rows.push(`                  <nz-option *ngFor="let i of ${UNDER_LINE}_${CommonUtils.camelToUnderline(field.name).toUpperCase()}" [nzValue]="i.value" [nzLabel]="i.label"></nz-option>`);
+        rows.push(`              </nz-select>`);
       } else {
         rows.push(
             `                <input nz-input formControlName="${field.name}" ` +
