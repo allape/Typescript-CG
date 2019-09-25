@@ -18,6 +18,7 @@ const template: Template = {
     rows.push(`import {uris} from '../../../../configs/http.config';`);
     rows.push(`import {LoadingService} from '../../../../services/loading.service';`);
     rows.push(`import {url} from '../../../../utils/http-utils';`);
+    rows.push(`import {FormUtils} from '../../../../utils/form-utils';`);
     rows.push(``);
     rows.push(`@Component({`);
     rows.push(`  selector: 'app-${config.name}-selector',`);
@@ -67,7 +68,7 @@ const template: Template = {
     rows.push(`  }`);
     rows.push(``);
     rows.push(`  public voidy(): void {`);
-    rows.push(`    BaseComponent.voidy_();`);
+    rows.push(`    BaseComponent.voidy();`);
     rows.push(`  }`);
     rows.push(``);
     rows.push(`  // region 列表`);
@@ -107,7 +108,7 @@ const template: Template = {
     rows.push(``);
     rows.push(`    this.http.get<Res<PageRes<${CamelName}>>>(`);
     rows.push(`      url(uris.${config.module}.${camelName}.page, page, size),`);
-    rows.push(`      { params: BaseComponent.getNonnullValue(this.searchForm) }`);
+    rows.push(`      { params: FormUtils.getNonnullValue(this.searchForm) }`);
     rows.push(`    ).subscribe(res => {`);
     rows.push(`      this.page = res.data;`);
     rows.push(`    });`);
