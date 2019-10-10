@@ -254,7 +254,7 @@ const template: Template = {
     rows.push(`<!-- 卡片标题模板 -->`);
     rows.push(`<ng-template #titleTpl>`);
     rows.push(`  <div nz-row nzGutter="10" nzType="flex" nzJustify="space-around" nzAlign="middle" class="page-title">`);
-    rows.push(`    <div nz-col nzLg="4" nzSpan="24"><span>{{getTitle()}}</span></div>`);
+    rows.push(`    <div nz-col nzLg="4" nzSpan="24" class="ellipsis-text"><span nz-tooltip [nzTitle]="getTitle()">{{getTitle()}}</span></div>`);
     rows.push(`    <div nz-col nzLg="20" nzSpan="24">`);
     rows.push(`      <form nz-form [formGroup]="searchForm">`);
     rows.push(`        <div nz-row nzGutter="10" nzType="flex" nzJustify="space-around" nzAlign="middle">`);
