@@ -288,7 +288,7 @@ const template: Template = {
     rows.push(`          <div nz-col nzLg="8" nzSpan="24" class="page-title-buttons">`);
     rows.push(`            <nz-button-group>`);
     rows.push(
-      `              <button nz-button nzType="primary" [nzLoading]="loading.loading()" (click)="load();">` +
+      `              <button nz-button nzType="primary" [nzLoading]="loading.loading()" (click)="load(1);">` +
       `<i nz-icon nzType="search" nzTheme="outline"></i> 搜索</button>`
     );
 
@@ -414,7 +414,7 @@ const template: Template = {
     const rows = [];
     rows.push(`import { async, ComponentFixture, TestBed } from '@angular/core/testing';`);
     rows.push(``);
-    rows.push(`import { ${CamelName} } from './${config.name}.component';`);
+    rows.push(`import { ${CamelName}Component } from './${config.name}.component';`);
     rows.push(``);
     rows.push(`describe('${CamelName}Component', () => {`);
     rows.push(`  let component: ${CamelName}Component;`);
