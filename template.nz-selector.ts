@@ -13,7 +13,6 @@ const template: Template = {
     rows.push(`import {Component, forwardRef, Injector} from '@angular/core';`);
     rows.push(`import {NG_VALUE_ACCESSOR} from '@angular/forms';`);
     rows.push(`import {uris} from '../../../../configs/http.config';`);
-    rows.push(`import {Transport as Trans, TransportComponent} from '../transport.component';`);
     rows.push(`import {BaseSelectorComponent} from '../../../../standards/base-selector-component';`);
     rows.push(``);
     rows.push(`@Component({`);
@@ -27,7 +26,7 @@ const template: Template = {
     rows.push(`    }`);
     rows.push(`  ]`);
     rows.push(`})`);
-    rows.push(`export class ${CamelName}SelectorComponent implements OnInit, ControlValueAccessor {`);
+    rows.push(`export class ${CamelName}SelectorComponent extends BaseSelectorComponent<${CamelName}> {`);
     rows.push(``);
     rows.push(`  constructor(private readonly injector: Injector) {`);
     rows.push(`    super(injector, {`);
