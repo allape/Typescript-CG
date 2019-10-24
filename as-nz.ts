@@ -125,6 +125,7 @@ const template: Template = {
           (typeof field.tableConfig.width === 'number' ? 'px' : '') + '"' : ''}>` +
         `${field.comment ? field.comment : field.name}</th>`);
     }
+    rows.push(`      <th nzWidth="120px" nzRight="120px">状态</th>`);
     rows.push(`      <th nzWidth="120px" nzRight="0">操作</th>`);
     rows.push(`    </tr>`);
     rows.push(`    </thead>`);
@@ -167,6 +168,15 @@ const template: Template = {
         }
       }
     }
+    rows.push(`      <td nzRight="120px">`);
+    rows.push(`        <nz-tag [nzColor]="data.status__lv.color" nz-dropdown [nzDropdownMenu]="statusDropdownMenu">{{ data.status__lv.label }}</nz-tag>`);
+    rows.push(`        <nz-dropdown-menu #statusDropdownMenu="nzDropdownMenu">`);
+    rows.push(`          <ul class="list-dropdown" nz-menu nzSelectable>`);
+    rows.push(`            <li *ngFor="let i of statuses" nz-menu-item`);
+    rows.push(`                (click)="changeStatus(data.id, i.value);" [ngStyle]="{ color: i.color }">{{i.label}}</li>`);
+    rows.push(`          </ul>`);
+    rows.push(`        </nz-dropdown-menu>`);
+    rows.push(`      </td>`);
     rows.push(`      <td nzRight="0">`);
     rows.push(`        <a (click)="showSaveDialog(data);">修改</a>`);
     rows.push(`        <nz-divider nzType="vertical"></nz-divider>`);
