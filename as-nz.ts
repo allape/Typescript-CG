@@ -23,6 +23,9 @@ const template: Template = {
     rows.push(`})`);
     rows.push(`export class ${CamelName}Component extends BaseComponent<${CamelName}> {`);
     rows.push(``);
+    rows.push(`  title = '${config.title}';`);
+    rows.push(`  label = '${config.label}';`);
+    rows.push(``);
     for (const field of config.fields) {
       if (field.selector) {
         rows.push(`  // ${field.comment}下拉选择内容`);
@@ -164,7 +167,7 @@ const template: Template = {
     rows.push(`      <td nzRight="0">`);
     rows.push(`        <a (click)="showSaveDialog(data);">修改</a>`);
     rows.push(`        <nz-divider nzType="vertical"></nz-divider>`);
-    rows.push(`        <a nz-popconfirm nzTitle="确定删除该${config.label}?" (nzOnConfirm)="del(data.id);">删除</a>`);
+    rows.push(`        <a nz-popconfirm [nzTitle]="'确定删除该' + label + '?'" (nzOnConfirm)="del(data.id);">删除</a>`);
     rows.push(`      </td>`);
     rows.push(`    </tr>`);
     rows.push(`    </tbody>`);
