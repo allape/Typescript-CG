@@ -41,6 +41,7 @@ for (let i = 0; i < args.length; i++) {
 const mysql = require('mysql');
 const pool = mysql.createPool({
     host    : host,
+    port    : port,
     user    : user,
     password: password,
     database: database,
