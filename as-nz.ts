@@ -23,8 +23,10 @@ const template: Template = {
     rows.push(`})`);
     rows.push(`export class ${CamelName}Component extends BaseComponent<${CamelName}> {`);
     rows.push(``);
+    rows.push(`  path = uris.${config.module}.${camelName};`);
     rows.push(`  title = '${config.title}';`);
     rows.push(`  label = '${config.label}';`);
+    rows.push(`  TABLE_X = '1200px';`);
     rows.push(``);
     for (const field of config.fields) {
       if (field.selector) {
