@@ -11,9 +11,8 @@ const template: Template = {
     const rows = [];
 
     rows.push(`import {Component, Injector} from '@angular/core';`);
-    rows.push(`import {BaseComponent, LabelValue, Page, STATUSES} from '../../../standards/base-component';`);
-    rows.push(`import {Validators} from '@angular/forms';`);
-    rows.push(`import {Observable} from 'rxjs';`);
+    rows.push(`import {BaseComponent, BaseEntity} from '../../../standards/base-component';`);
+    rows.push(`import {FormGroup, Validators} from '@angular/forms';`);
     rows.push(`import {uris} from '../../../configs/http.config';`);
     rows.push(``);
     rows.push(`@Component({`);
@@ -57,13 +56,13 @@ const template: Template = {
     rows.push(`  public search = this.fb.group({`);
 
     // 搜索表单字段
-    const searchForm = [];
+    const search = [];
     for (const field of config.fields) {
       if (field.searchConfig) {
-        searchForm.push(field);
+        search.push(field);
       }
     }
-    for (const field of searchForm) {
+    for (const field of search) {
       rows.push(`    ${CommonUtils.fill(field.name + ':', fieldMaxLength)} [ null ],`);
     }
 
@@ -85,6 +84,8 @@ const template: Template = {
       );
     }
     rows.push(`  });`);
+    rows.push(``);
+    rows.push(`}`);
     rows.push(``);
     rows.push(`export interface ${CamelName} extends BaseEntity {`);
     rows.push(``);
@@ -223,7 +224,7 @@ const template: Template = {
       rows.push(`                      nzTrigger="click" nzPlacement="bottomRight"><i nz-icon nzType="down" nzTheme="outline"></i></button>`);
     }
     rows.push(
-      `              <button nz-button [nzLoading]="loading.loading()" (click)="this.searchForm.reset(); load();">` +
+      `              <button nz-button [nzLoading]="loading.loading()" (click)="this.search.reset(); load();">` +
       `<i nz-icon nzType="redo" nzTheme="outline"></i> 清空</button>`
     );
     rows.push(`            </nz-button-group>`);
@@ -281,7 +282,7 @@ const template: Template = {
     rows.push(`</ng-template>`);
     rows.push(``);
     rows.push(`<!-- 新增/修改的模板 -->`);
-    rows.push(`<ng-template #saveFormTpl>`);
+    rows.push(`<ng-template #saveTpl>`);
     rows.push(`  <form nz-form [formGroup]="save" nzLayout="vertical">`);
     rows.push(`    <div nz-row nzGutter="10">`);
     for (const field of config.fields) {
@@ -308,7 +309,7 @@ const template: Template = {
             rows.push(
                 `            <nz-input-number nzMin="0" nzPrecision="0" ` +
                 `id="${field.name}" formControlName="${field.name}" ` +
-                `[nzDisabled]="saveFormReadonly" ` +
+                `[nzDisabled]="saveReadonly" ` +
                 `nzPlaceHolder="` +
                 `${field.saveModalConfig.placeholder ? field.saveModalConfig.placeholder : field.comment ? field.comment : field.name}"></nz-input-number>`
             );
@@ -316,7 +317,7 @@ const template: Template = {
             rows.push(
                 `            <input nz-input id="${field.name}" ` +
                 `formControlName="${field.name}" ` +
-                `[readonly]="saveFormReadonly" ` +
+                `[readonly]="saveReadonly" ` +
                 `placeholder="` +
                 `${field.saveModalConfig.placeholder ? field.saveModalConfig.placeholder : field.comment ? field.comment : field.name}">`
             );
