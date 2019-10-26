@@ -48,12 +48,12 @@ const template: Template = {
       rows.push(``);
     }
     rows.push(`  constructor(`);
-    rows.push(`    public readonly injector: Injector,`);
+    rows.push(`    protected readonly injector: Injector,`);
     rows.push(`  ) {`);
     rows.push(`    super(injector);`);
     rows.push(`  }`);
     rows.push(``);
-    rows.push(`  public search = this.fb.group({`);
+    rows.push(`  search = this.fb.group({`);
 
     // 搜索表单字段
     const search = [];
@@ -68,7 +68,7 @@ const template: Template = {
 
     rows.push(`  });`);
     rows.push(``);
-    rows.push(`  public save: FormGroup = this.fb.group({`);
+    rows.push(`  save: FormGroup = this.fb.group({`);
     // 新增修改表单字段
     const saveForm = [];
     for (const field of config.fields) {
