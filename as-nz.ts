@@ -234,7 +234,7 @@ const template: Template = {
       rows.push(`                      nzTrigger="click" nzPlacement="bottomRight"><i nz-icon nzType="down" nzTheme="outline"></i></button>`);
     }
     rows.push(
-      `              <button nz-button [nzLoading]="loading.loading()" (click)="this.search.reset(); load();">` +
+      `              <button nz-button [nzLoading]="loading.loading()" (click)="reset();">` +
       `<i nz-icon nzType="redo" nzTheme="outline"></i> 清空</button>`
     );
     rows.push(`            </nz-button-group>`);
