@@ -51,7 +51,7 @@ class CommonUtils {
    * @param camel 驼峰字符串
    */
   public static camelToUnderline(camel: string): string {
-    return camel ? camel[0].toLowerCase() + camel.substring(1).replace(/(?=[A-Z])/g, '_') : camel;
+    return camel ? camel[0].toLowerCase() + camel.substring(1).replace(/(?=[A-Z])/g, '_').toLowerCase() : camel;
   }
 
 
