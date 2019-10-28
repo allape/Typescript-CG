@@ -61,7 +61,7 @@ const template: Template = {
     rows.push(`export class ${CamelName}Entity extends BaseEntity {`);
     rows.push(``);
     for (const field of config.fields) {
-      rows.push(`  @Column(${/[A-Z]/.test(field.name) ? '' : `{ name: '${CommonUtils.camelToUnderline(field.name)}' }`})`);
+      rows.push(`  @Column(${/[A-Z]/.test(field.name) ? `{ name: '${CommonUtils.camelToUnderline(field.name)}' }` : ''})`);
       rows.push(`  @${field.saveModalConfig && field.saveModalConfig.required ? 'ApiModelProperty' : 'ApiModelPropertyOptional'}({ description: '${field.comment || field.name}' })`);
       rows.push(`  ${field.name}?: ${field.type};`);
       rows.push(``);
